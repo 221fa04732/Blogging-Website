@@ -22,6 +22,7 @@ export default function AlertMessage(props : {
   return (
     <div className={`fixed right-0 z-30  ${visible ? "block" : 'hidden'}`}>
         <Alert></Alert>
+        <div>{props.message}</div>
     </div>
   );
 
