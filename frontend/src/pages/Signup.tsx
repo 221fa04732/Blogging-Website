@@ -24,8 +24,11 @@ export default function Signup(){
             const data = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, signupValue)
             if(data.status===200){
                 const token = data.data.token;
-                localStorage.setItem('token', token)
+                localStorage.setItem('token',`Barrer ${token}`)
                 navigate('/blogs')
+            }
+            else{
+                console.log(data.data.msg)
             }
             
         }

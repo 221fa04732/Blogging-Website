@@ -44,7 +44,7 @@ blogRouter.use('/*', async(c, next)=>{
 blogRouter.post('/new-post', async(c)=>{
     const body = await c.req.json();
     const {success} = createPost.safeParse(body);
-    if(success){
+    if(!success){
         c.status(202)
         return c.json({
             msg : "Invalid Input"
@@ -85,7 +85,7 @@ blogRouter.put('/update-post', async(c)=>{
 
     const body = await c.req.json();
     const { success } = updatePost.safeParse(body);
-    if(success){
+    if(!success){
         c.status(202)
         return c.json({
             msg : "Invalid Input"
@@ -158,7 +158,15 @@ blogRouter.get('/bulk', async(c)=>{
     }).$extends(withAccelerate())
 
     try{
-        const blog = await prisma.post.findMany();
+        const blog = await prisma.post.findMany({
+            include: {
+                author: {
+                  select: {
+                    name: true, 
+                  },
+                },
+            },
+        });
         c.status(200)
         return c.json({
             blog

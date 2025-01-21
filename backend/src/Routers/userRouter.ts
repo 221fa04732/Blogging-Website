@@ -51,7 +51,10 @@ try{
     const token =await sign({id : user.id}, c.env.JWT_SECRET);
 
     c.status(200)
-    return c.json({token})
+    return c.json({
+        token : token,
+        msg  :"Sucessfully Signup",
+    })
 }
 catch(e){
     c.status(404)
@@ -93,7 +96,11 @@ try{
     }
 
     const token = await sign({id: user.id}, c.env.JWT_SECRET)
-    return c.json({token})
+    c.status(200)
+    return c.json({
+        token : token,
+        msg : "Sucessfully Signin",
+    })
 }
 catch(e){
     c.status(404)
