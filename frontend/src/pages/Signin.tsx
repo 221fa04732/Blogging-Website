@@ -6,10 +6,13 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { BACKEND_URL } from '../config'
+import { User } from '../Atoms/User'
+import { useSetRecoilState } from 'recoil'
 
 
 export default function Signin(){
 
+    const setUser = useSetRecoilState(User);
     const navigate = useNavigate();
     const [signinValue, setSigninValue] = useState<userSigninType>({
         email : "",
@@ -22,8 +25,10 @@ export default function Signin(){
             const data = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, signinValue)
             if(data.status===200){
                 const token = data.data.token;
-                console.log(data)
                 localStorage.setItem('token',`Barrer ${token}`)
+                if(data.data.name){
+                    setUser(data.data.name)
+                }
                 navigate('/blogs')
             }
             else{
