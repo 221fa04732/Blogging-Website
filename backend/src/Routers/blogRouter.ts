@@ -68,7 +68,7 @@ blogRouter.post('/new-post', async(c)=>{
 
         c.status(200)
         return c.json({
-            blogId : blog.id
+            msg : "Blog Sucessfully Posted"
         })
     }
     catch(e){
