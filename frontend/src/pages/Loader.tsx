@@ -45,8 +45,8 @@ export default function Loader() {
             <div className="h-4 w-5/6 bg-gray-700 rounded"></div>
             </div>
             <div className="flex justify-between pl-5 mt-10">
-            <div className="h-4 w-16 bg-gray-700 rounded"></div>
-            <div className="h-6 w-20 bg-gray-700 rounded"></div>
+                <div className="h-4 w-16 bg-gray-700 rounded"></div>
+                <div className="h-6 w-20 bg-gray-700 rounded"></div>
             </div>
             </div>
         </div>

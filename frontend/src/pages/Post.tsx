@@ -1,12 +1,10 @@
-import { useRecoilValue, useSetRecoilState } from "recoil"
-import { User } from "../Atoms/User"
+import { useSetRecoilState } from "recoil"
 import { PostVisible } from "../Atoms/PostVisible"
 
 
 export default function Post(){
 
-    const user = useRecoilValue(User)
-    const userName = modifyName(user)
+    const userName = modifyName(localStorage.getItem("userName") || "Anonymous")
     const postVisible = useSetRecoilState(PostVisible)
 
     return(<div className="flex flex-col items-center h-full bg-stone-700 border border-blue-500">
@@ -39,9 +37,11 @@ export default function Post(){
     </div>)
 }
 
+
 function blogPost(){
 
 }
+
 
 function modifyName(user : string){
     const tempUser = user.split(' ')[0];
@@ -55,8 +55,32 @@ function modifyName(user : string){
     }
 
     for(let i=1;i<tempUser.length;i++){
-        actualUser+=tempUser[i];
+        if(tempUser[i]>='A' && tempUser[i]<='Z'){
+            actualUser+=tempUser[i].toLowerCase();
+        }
+        else{
+            actualUser+=tempUser[i]
+        }
+    }
 
+    if(user.split(' ')[1]){
+        actualUser+=" ";
+        const tempUser2 = user.split(' ')[1];
+        if(tempUser2[0]>='a' && tempUser2[0]<='z'){
+            actualUser+=tempUser2[0].toUpperCase();
+        }
+        else{
+            actualUser+=tempUser2[0]
+        }
+    
+        for(let i=1;i<tempUser2.length;i++){
+            if(tempUser2[i]>='A' && tempUser2[i]<='Z'){
+                actualUser+=tempUser2[i].toLowerCase();
+            }
+            else{
+                actualUser+=tempUser2[i]
+            }
+        }
     }
 
     return actualUser;
