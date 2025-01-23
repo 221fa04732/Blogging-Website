@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { BACKEND_URL } from '../config'
+import { SignLoader } from '../Atoms/SignLoader'
+import { useSetRecoilState } from 'recoil'
 
 
 export default function Signup(){
@@ -16,6 +18,7 @@ export default function Signup(){
         password : "",
         name : ""
     })
+    const setSignloading = useSetRecoilState(SignLoader)
 
     async function signUp(){
         
@@ -38,8 +41,10 @@ export default function Signup(){
             
         }
         catch(e){
-            alert('Error while signin')
+            console.log('Error while signin')
         }
+
+        setSignloading(false)
         
     }
     

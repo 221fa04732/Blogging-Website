@@ -60,8 +60,8 @@ export default function Blogs() {
           <div className="w-full min-h-16 max-h-16 fixed bg-stone-800 border-b border-blue-500 flex justify-center">
             <Header />
           </div>
-          <div className="mt-16 flex flex-col items-center w-full">
-            {!loading ? (
+          <div className="mt-16 flex flex-col items-center w-full min-h-screen">
+            {!loading || blogs.length > 0 ? (
               [...blogs].reverse().map((blog) => (
                 <BlogCard
                   key={blog.id}
