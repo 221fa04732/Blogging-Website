@@ -6,8 +6,9 @@ import Loader from "./Loader";
 import Header from "../components/Header";
 import Post from "./Post";
 import { PostVisible } from "../Atoms/PostVisible";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Footer from "../components/Footer";
+import { Loading } from "../Atoms/Loading";
 
 type blogprop = {
 
@@ -25,6 +26,7 @@ export default function Blogs() {
   const postVisible = useRecoilValue(PostVisible)
   const token = localStorage.getItem("token");
   const [blogs, setBlogs] = useState<blogprop[]>([]);
+  const [loading, setLoading] = useRecoilState(Loading)
 
   useEffect(() => {
     let intervalId;
@@ -42,6 +44,7 @@ export default function Blogs() {
       } catch (error) {
         console.error("Error fetching blogs:", error);
       }
+      setLoading(false)
     };
 
     fetchBlogs();
@@ -49,7 +52,8 @@ export default function Blogs() {
     intervalId = setInterval(fetchBlogs, 60000);
 
     return () => clearInterval(intervalId);
-  }, [token]); 
+
+  }, [loading]); 
 
   return (
     <div className="bg-stone-800 min-h-screen flex flex-col items-center">

@@ -21,7 +21,7 @@ export default function BlogCard(
         </div>
         <Link to={`/blog/${props.id}`} >
             <div className="mt-6 text-4xl font-bold pl-5 pr-16">{props.title}</div>
-            <div className="mt-3 pl-5 font-sans text-lg text-gray-300 pr-16">{props.content.substring(0,800)}</div>
+            <div style={{ whiteSpace: "pre-wrap" }} className="mt-3 pl-5 font-sans text-lg text-gray-300 pr-16">{props.content.length > 500 ? props.content.substring(0, 500)+"..." : props.content}</div>
         </Link>
         <div className="text-sm text-gray-500 pt-8">{Math.ceil(props.content.trim().split(/\s+/).length/10)} min read</div>
         
