@@ -1,6 +1,6 @@
 import {atom} from 'recoil'
 
-export const Postloader = atom({
+export const Postloaderatom = atom({
     key : "postloader",
     default : false
 })

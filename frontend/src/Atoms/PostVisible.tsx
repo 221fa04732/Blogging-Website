@@ -1,6 +1,6 @@
 import { atom  } from 'recoil'
 
-export const PostVisible = atom({
+export const PostVisibleatom = atom({
     key  : "PostVisible",
     default : 0
 })

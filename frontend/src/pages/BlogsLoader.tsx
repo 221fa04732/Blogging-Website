@@ -1,4 +1,11 @@
 export default function Loader() {
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
+
+    
     return (<div className="flex flex-col items-center w-full min-h-screen">
             <div className="flex flex-col mt-8 mb-8 w-10/12 text-white p-8 border-b border-gray-500 animate-pulse">
                 <div className="flex items-center">

@@ -1,22 +1,23 @@
 import { useRecoilState, useSetRecoilState } from "recoil"
-import { PostVisible } from "../Atoms/PostVisible"
-import { Postloader } from "../Atoms/Postloader"
+import { PostVisibleatom } from "../Atoms/PostVisible"
+import { Postloaderatom } from "../Atoms/Postloader"
 import { useState } from "react"
 import axios from 'axios'
 import { BACKEND_URL } from "../config"
-import { Loading } from "../Atoms/Loading"
+import { BlogsLoadingatom } from "../Atoms/BlogsLoader"
 
 
 export default function Post(){
 
     const userName = modifyName(localStorage.getItem("userName") || "Anonymous")
-    const setPostVisible = useSetRecoilState(PostVisible)
-    const setLoading = useSetRecoilState(Loading)
-    const [postloading, setPostloading] = useRecoilState(Postloader)
+    const setPostVisible = useSetRecoilState(PostVisibleatom)
+    const setblogsLoading = useSetRecoilState(BlogsLoadingatom)
+    const [postloading, setPostloading] = useRecoilState(Postloaderatom)
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
 
     return(<div className="flex flex-col items-center h-full bg-stone-700 border border-blue-500">
+
         <header className="flex justify-between items-center py-2 w-11/12">
             <div className="flex items-center gap-4">
                 <div className="min-h-8 max-h-8 min-w-8 max-w-8 bg-slate-600 rounded-full font-bold text-xl flex justify-center items-center text-white">{userName[0]}</div>
@@ -25,7 +26,7 @@ export default function Post(){
             <div className="flex items-center">
                 <button onClick={()=>{
                     if(!postloading){
-                        blogPost(title, content, setTitle, setContent, setPostloading,setPostVisible, setLoading)
+                        blogPost(title, content, setTitle, setContent, setPostloading,setPostVisible, setblogsLoading)
                         setPostloading(true)
                     }
                 }} className="font-medium bg-green-600 px-4 py-2 rounded-lg mr-4">
@@ -60,7 +61,7 @@ export default function Post(){
 }
 
 
-async function blogPost(title : string, content : string, setTitle : any, setContent : any, setPostloading : any, setPostVisible : any, setLoading : any){
+async function blogPost(title : string, content : string, setTitle : any, setContent : any, setPostloading : any, setPostVisible : any, setblogsLoading : any){
 
     try{
         const createPost = await axios.post(`${BACKEND_URL}/api/v1/blog/new-post`,{
@@ -75,7 +76,7 @@ async function blogPost(title : string, content : string, setTitle : any, setCon
         if(createPost.status === 200){
             setTitle('')
             setContent('')
-            setLoading(true)
+            setblogsLoading(true)
             setPostVisible(0)
         }
         console.log(createPost.data.msg);

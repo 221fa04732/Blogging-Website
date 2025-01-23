@@ -1,6 +1,6 @@
 import {atom} from 'recoil'
 
-export const SignLoader = atom({
+export const SignLoaderatom = atom({
     key : "SignLoader",
     default : false
 })

@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import Loader from "./Loader";
-import Header from "../components/Header";
+import Loader from "./BlogsLoader";
+import BlogsHeader from "../components/BlogsHeader";
 import Post from "./Post";
-import { PostVisible } from "../Atoms/PostVisible";
+import { PostVisibleatom } from "../Atoms/PostVisible";
 import { useRecoilState, useRecoilValue } from "recoil";
 import Footer from "../components/Footer";
-import { Loading } from "../Atoms/Loading";
+import { BlogsLoadingatom } from "../Atoms/BlogsLoader";
+import Waiting from "./Waiting";
 
 type blogprop = {
 
@@ -23,10 +24,10 @@ type blogprop = {
 
 export default function Blogs() {
 
-  const postVisible = useRecoilValue(PostVisible)
+  const postVisible = useRecoilValue(PostVisibleatom)
   const token = localStorage.getItem("token");
   const [blogs, setBlogs] = useState<blogprop[]>([]);
-  const [loading, setLoading] = useRecoilState(Loading)
+  const [blogloading, setblogLoading] = useRecoilState(BlogsLoadingatom)
 
   useEffect(() => {
     let intervalId;
@@ -44,7 +45,7 @@ export default function Blogs() {
       } catch (error) {
         console.error("Error fetching blogs:", error);
       }
-      setLoading(false)
+      setblogLoading(false)
     };
 
     fetchBlogs();
@@ -53,15 +54,15 @@ export default function Blogs() {
 
     return () => clearInterval(intervalId);
 
-  }, [loading]); 
+  }, [blogloading]); 
 
   return (<div className="bg-stone-800 min-h-screen flex flex-col items-center">
         <div className={`bg-stone-800 min-h-screen flex flex-col items-center ${postVisible === 1 ? "blur-sm" : "blur-none"} w-full`}>
           <div className="w-full min-h-16 max-h-16 fixed bg-stone-800 border-b border-blue-500 flex justify-center">
-            <Header />
+            <BlogsHeader />
           </div>
           <div className="mt-16 flex flex-col items-center w-full min-h-screen">
-            {!loading || blogs.length > 0 ? (
+            {!blogloading ? (blogs.length > 0 ? (
               [...blogs].reverse().map((blog) => (
                 <BlogCard
                   key={blog.id}
@@ -73,6 +74,8 @@ export default function Blogs() {
                 />
               ))
             ) : (
+              <Waiting />
+            )) : (
               < Loader />
             )}
           </div>
