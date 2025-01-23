@@ -5,11 +5,12 @@ import { useState } from "react"
 import axios from 'axios'
 import { BACKEND_URL } from "../config"
 import { BlogsLoadingatom } from "../Atoms/BlogsLoader"
+import UpperCase from "../components/UpperCase"
 
 
 export default function Post(){
 
-    const userName = modifyName(localStorage.getItem("userName") || "Anonymous")
+    const userName = UpperCase(localStorage.getItem("Loged-In-UserName") || "guest")
     const setPostVisible = useSetRecoilState(PostVisibleatom)
     const setblogsLoading = useSetRecoilState(BlogsLoadingatom)
     const [postloading, setPostloading] = useRecoilState(Postloaderatom)
@@ -69,7 +70,7 @@ async function blogPost(title : string, content : string, setTitle : any, setCon
             content : content,
         },{
             headers:{
-                Authorization : localStorage.getItem("token")
+                Authorization : localStorage.getItem("Medium-Blog-Token")
             }
         })
 
@@ -87,48 +88,4 @@ async function blogPost(title : string, content : string, setTitle : any, setCon
 
     setPostloading(false)
 
-}
-
-
-function modifyName(user : string){
-    const tempUser = user.split(' ')[0];
-    let actualUser = "";
-
-    if(tempUser[0]>='a' && tempUser[0]<='z'){
-        actualUser+=tempUser[0].toUpperCase();
-    }
-    else{
-        actualUser+=tempUser[0]
-    }
-
-    for(let i=1;i<tempUser.length;i++){
-        if(tempUser[i]>='A' && tempUser[i]<='Z'){
-            actualUser+=tempUser[i].toLowerCase();
-        }
-        else{
-            actualUser+=tempUser[i]
-        }
-    }
-
-    if(user.split(' ')[1]){
-        actualUser+=" ";
-        const tempUser2 = user.split(' ')[1];
-        if(tempUser2[0]>='a' && tempUser2[0]<='z'){
-            actualUser+=tempUser2[0].toUpperCase();
-        }
-        else{
-            actualUser+=tempUser2[0]
-        }
-    
-        for(let i=1;i<tempUser2.length;i++){
-            if(tempUser2[i]>='A' && tempUser2[i]<='Z'){
-                actualUser+=tempUser2[i].toLowerCase();
-            }
-            else{
-                actualUser+=tempUser2[i]
-            }
-        }
-    }
-
-    return actualUser;
 }

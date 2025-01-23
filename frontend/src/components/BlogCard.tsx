@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { BlogLoaderatom } from "../Atoms/BlogLoader";
 import { useSetRecoilState } from "recoil";
+import UpperCase from "./UpperCase";
 
 export default function BlogCard(
     props : {
@@ -12,7 +13,7 @@ export default function BlogCard(
     }
 ){
     
-    const newUserName : string = userNameSenCase(props.name);
+    const newUserName : string = UpperCase(props.name);
     const setblogLoading = useSetRecoilState(BlogLoaderatom)
 
     return (<div className="flex flex-col mt-4 mb-4 w-10/12 text-white p-8 border-b border-gray-500">
@@ -23,7 +24,7 @@ export default function BlogCard(
             <div className="pl-1 text-gray-600 font-medium text-base">{props.postDate.slice(0,10)}</div>
         </div>
         <Link to={`/blog/${props.id}`} onClick={()=>{
-            localStorage.setItem("blogID", props.id)
+            localStorage.setItem("Specific-Blog-Id", props.id)
             setblogLoading(true)
         }}>
             <div className="mt-6 text-4xl font-bold pl-5 pr-16">{props.title}</div>
@@ -32,23 +33,4 @@ export default function BlogCard(
         <div className="text-sm text-gray-500 pt-8">{Math.ceil(props.content.trim().split(/\s+/).length/10)} min read</div>
         
     </div>)
-}
-
-
-function userNameSenCase(userName: string): string {
-    let result = ""; 
-
-    for (let i = 0; i < userName.length; i++) {
-        if (i === 0 && userName[0] >= 'a' && userName[0] <= 'z') {
-            result += userName[0].toUpperCase();
-        } else if (userName[i] === ' ' && i + 1 < userName.length && userName[i + 1] >= 'a' &&userName[i + 1] <= 'z') {
-            result += userName[i]; 
-            result += userName[i + 1].toUpperCase();
-            i++; 
-        } else {
-            result += userName[i];
-        }
-    }
-
-    return result;
 }

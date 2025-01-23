@@ -3,7 +3,7 @@ import { PostVisibleatom } from "../Atoms/PostVisible"
 
 export default function BlogsHeader(){
 
-    const userName = localStorage.getItem("userName") || "Anonymous"
+    const userName = localStorage.getItem("Loged-In-UserName") || "guest"
     const postVisible = useSetRecoilState(PostVisibleatom);
 
     return(<div className="h-16 flex text-white items-center justify-between w-10/12">

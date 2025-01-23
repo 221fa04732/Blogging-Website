@@ -7,10 +7,11 @@ import { BlogLoaderatom } from '../Atoms/BlogLoader';
 import { useRecoilState } from 'recoil';
 import BlogLoader from './BlogLoader';
 import Waiting from './Waiting';
+import UpperCase from '../components/UpperCase';
 
 export default function Blog(){
 
-    const blogID = localStorage.getItem("blogID")
+    const blogID = localStorage.getItem("Specific-Blog-Id")
     const [blogloading , setblogLoading] = useRecoilState(BlogLoaderatom)
     const [userEmail, setUsermail] = useState('')
     const [userName, setUsername] = useState('')
@@ -18,8 +19,8 @@ export default function Blog(){
     const [content, setContent] = useState('')
     const [publishDate, setPublishdate] = useState('')
 
-    const ModifiedUsername = Modified(userName)
-    const ModifiedTitle = Modified(title)
+    const ModifiedUsername = UpperCase(userName)
+    const ModifiedTitle = UpperCase(title)
 
     useEffect(() => {
     
@@ -27,7 +28,7 @@ export default function Blog(){
           try {
             const response = await axios.get(`${BACKEND_URL}/api/v1/blog/unique/${blogID}`, {
               headers: {
-                Authorization: localStorage.getItem("token"),
+                Authorization: localStorage.getItem("Medium-Blog-Token"),
               },
             });
 
@@ -85,30 +86,4 @@ export default function Blog(){
         </div>
 
     </div>)
-}
-
-
-function Modified(userName :string){
-    let actualUser = "";
-    const tempUsername = userName.split(' ')
-
-    for(let i=0;i<tempUsername.length;i++){
-        const tempUsername2=tempUsername[i];
-        if(tempUsername2[0]>='a' && tempUsername2[0]<='z'){
-            actualUser+=tempUsername2[0].toUpperCase();
-        }
-        else{
-            actualUser+=tempUsername2[0];
-        }
-        for(let j=1;j<tempUsername2.length;j++){
-            if(tempUsername2[j]>='A' && tempUsername2[j]<='Z'){
-                actualUser+=tempUsername2[j].toLowerCase();
-            }
-            else{
-                actualUser+=tempUsername2[j];
-            }
-        }
-        actualUser+=" ";
-    }
-    return actualUser;
 }

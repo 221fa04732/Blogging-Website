@@ -53,7 +53,9 @@ try{
     c.status(200)
     return c.json({
         token : token,
-        name : body.name,
+        name : user.name,
+        email : user.email,
+        id : user.id,
         msg  :"Sucessfully Signup",
     })
 }
@@ -101,6 +103,8 @@ try{
     return c.json({
         token : token,
         name : user.name,
+        email : user.email,
+        id : user.id,
         msg : "Sucessfully Signin",
     })
 }

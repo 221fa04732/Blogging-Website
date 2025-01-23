@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function BlogHeader(){
 
-    const userName = localStorage.getItem("userName") || "Anonymous"
+    const userName = localStorage.getItem("Loged-In-UserName") || "guest"
 
     return(<div className="h-16 flex text-white items-center justify-between w-10/12">
         <div className="flex items-center gap-4">
