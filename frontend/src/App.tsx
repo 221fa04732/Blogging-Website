@@ -4,11 +4,19 @@ const Signup = lazy(()=> import('./pages/Signup'))
 const Signin = lazy(()=> import('./pages/Signin'))
 const Blog = lazy(()=> import('./pages/Blog'))
 const Blogs = lazy(()=> import('./pages/Blogs'))
+import AlertMessage from './components/AlertMessage'
+import { AlertMessageatom } from './Atoms/AlertMessage'
+import { useRecoilValue } from 'recoil'
 
 function App() {
 
+  const alertMessage = useRecoilValue(AlertMessageatom)
+
   return (
     <>
+      <div className={`fixed z-50 right-0 top-4 ${alertMessage.show ? "block" : "hidden"}`}>
+        <AlertMessage />
+      </div>
       <BrowserRouter>
         <Suspense>
           <Routes>

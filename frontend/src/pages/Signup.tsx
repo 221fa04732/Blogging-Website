@@ -8,6 +8,7 @@ import axios from 'axios'
 import { BACKEND_URL } from '../config'
 import { SignLoaderatom } from '../Atoms/SignLoader'
 import { useSetRecoilState } from 'recoil'
+import { AlertMessageatom } from '../Atoms/AlertMessage'
 
 
 export default function Signup(){
@@ -19,6 +20,7 @@ export default function Signup(){
         name : ""
     })
     const setSignloading = useSetRecoilState(SignLoaderatom)
+    const setAlertMessage = useSetRecoilState(AlertMessageatom)
 
     async function signUp(){
         
@@ -32,17 +34,20 @@ export default function Signup(){
                 localStorage.setItem("Loged-In-UserId", data.data.id || "123456")
                 navigate('/blogs')
             }
-            
-            console.log(data.data.msg)
-            
-            
+            setAlertMessage({
+                show : true,
+                message : data.data.msg,
+                status : data.status
+            })
         }
         catch(e){
-            console.log('Error while signin')
+            setAlertMessage({
+                show : true,
+                message : "Server Error",
+                status : 404
+            })
         }
-
         setSignloading(false)
-        
     }
     
     const handleInputChange = (field: keyof userSignupType, value: string) => {

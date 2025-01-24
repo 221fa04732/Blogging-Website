@@ -13,11 +13,25 @@ export const userRouter = new Hono<{
 
 userRouter.post('/signup', async (c) => {
     const body =await c.req.json();
-    const verifyBody = userSignup.safeParse(body);
-    if(!verifyBody.success){
+    const verifyEmail = userSignup.safeParse('email', body.email);
+    if(!verifyEmail.success){
         c.status(202)
         return c.json({
-            msg : "Invalid Input"
+            msg : "Invalid Email"
+        })
+    }
+    const verifyPassword = userSignup.safeParse('Password', body.password);
+    if(!verifyPassword.success){
+        c.status(202)
+        return c.json({
+            msg : "Invalid Password"
+        })
+    }
+    const verifyUsername = userSignup.safeParse('name', body.name);
+    if(!verifyUsername.success){
+        c.status(202)
+        return c.json({
+            msg : "Invalid UserName"
         })
     }
 
@@ -36,7 +50,7 @@ try{
     if(alreadyExitUser){
         c.status(202)
         return c.json({
-            msg : "User already exit"
+            msg : "User Already Exit"
         })
     }
 
@@ -56,7 +70,7 @@ try{
         name : user.name,
         email : user.email,
         id : user.id,
-        msg  :"Sucessfully Signup",
+        msg  :"SignUp Sucessfully",
     })
 }
 catch(e){
@@ -85,19 +99,25 @@ const prisma = new PrismaClient({
 
 try{
     const user =await prisma.user.findUnique({
-    where:{
-        email : body.email,
-        password: body.password
-    }
+        where:{
+            email : body.email
+        }
     })
 
     if(!user){
         c.status(202)
         return c.json({
-            msg : "User not found"
+            msg : "Email Not Registred"
         })
     }
 
+    if(user.password != body.password){
+        c.status(202)
+        return c.json({
+            msg : "Incorrect Password"
+        })
+    }
+    
     const token = await sign({id: user.id}, c.env.JWT_SECRET)
     c.status(200)
     return c.json({
@@ -105,7 +125,7 @@ try{
         name : user.name,
         email : user.email,
         id : user.id,
-        msg : "Sucessfully Signin",
+        msg : "SignIn Sucessfully",
     })
 }
 catch(e){

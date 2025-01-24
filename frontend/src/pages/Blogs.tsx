@@ -6,10 +6,11 @@ import Loader from "./BlogsLoader";
 import BlogsHeader from "../components/BlogsHeader";
 import Post from "./Post";
 import { PostVisibleatom } from "../Atoms/PostVisible";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Footer from "../components/Footer";
 import { BlogsLoadingatom } from "../Atoms/BlogsLoader";
 import Waiting from "./Waiting";
+import { AlertMessageatom } from "../Atoms/AlertMessage";
 
 type blogprop = {
 
@@ -28,6 +29,7 @@ export default function Blogs() {
   const token = localStorage.getItem("Medium-Blog-Token");
   const [blogs, setBlogs] = useState<blogprop[]>([]);
   const [blogloading, setblogLoading] = useRecoilState(BlogsLoadingatom)
+  const setAlertMessage = useSetRecoilState(AlertMessageatom)
 
   useEffect(() => {
     let intervalId;
@@ -39,11 +41,19 @@ export default function Blogs() {
             Authorization: token,
           },
         });
+
         if (response) {
           setBlogs(response.data.blog);
         }
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
+
+      } 
+      catch (error) 
+      {
+        setAlertMessage({
+          show : true,
+          message : "Server Error",
+          status : 404
+        })
       }
       setblogLoading(false)
     };

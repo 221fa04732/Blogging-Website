@@ -7,6 +7,7 @@ import { BACKEND_URL } from "../config"
 import { BlogsLoadingatom } from "../Atoms/BlogsLoader"
 import UpperCase from "../components/UpperCase"
 import ButtonLoader from "../components/ButtonLoader"
+import { AlertMessageatom } from "../Atoms/AlertMessage"
 
 
 export default function Post(){
@@ -17,6 +18,7 @@ export default function Post(){
     const [postloading, setPostloading] = useRecoilState(Postloaderatom)
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const setAlertMessage = useSetRecoilState(AlertMessageatom)
 
     return(<div className="flex flex-col items-center h-full bg-stone-700 ">
 
@@ -28,7 +30,7 @@ export default function Post(){
             <div className="flex items-center">
                 <button onClick={()=>{
                     if(!postloading){
-                        blogPost(title, content, setTitle, setContent, setPostloading,setPostVisible, setblogsLoading)
+                        blogPost(title, content, setTitle, setContent, setPostloading,setPostVisible, setblogsLoading, setAlertMessage)
                         setPostloading(true)
                     }
                 }} className="font-medium bg-green-600 px-4 py-2 rounded-lg mr-4">
@@ -63,7 +65,7 @@ export default function Post(){
 }
 
 
-async function blogPost(title : string, content : string, setTitle : any, setContent : any, setPostloading : any, setPostVisible : any, setblogsLoading : any){
+async function blogPost(title : string, content : string, setTitle : any, setContent : any, setPostloading : any, setPostVisible : any, setblogsLoading : any, setAlertMessage : any){
 
     try{
         const createPost = await axios.post(`${BACKEND_URL}/api/v1/blog/new-post`,{
@@ -81,10 +83,18 @@ async function blogPost(title : string, content : string, setTitle : any, setCon
             setblogsLoading(true)
             setPostVisible(0)
         }
-        console.log(createPost.data.msg);
+        setAlertMessage({
+            show : true,
+            message : createPost.data.msg,
+            status : createPost.status
+        })
     }
     catch(e){
-        console.log("Server Error")
+        setAlertMessage({
+            show : true,
+            message : "Server Error",
+            status : 404
+        })
     }
 
     setPostloading(false)

@@ -4,10 +4,11 @@ import { BACKEND_URL } from '../config';
 import BlogHeader from '../components/BlogHeader';
 import Footer from '../components/Footer';
 import { BlogLoaderatom } from '../Atoms/BlogLoader';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import BlogLoader from './BlogLoader';
 import Waiting from './Waiting';
 import UpperCase from '../components/UpperCase';
+import { AlertMessageatom } from '../Atoms/AlertMessage';
 
 export default function Blog(){
 
@@ -18,6 +19,7 @@ export default function Blog(){
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [publishDate, setPublishdate] = useState('')
+    const setAlertMessage = useSetRecoilState(AlertMessageatom)
 
     const ModifiedUsername = UpperCase(userName)
     const ModifiedTitle = UpperCase(title)
@@ -40,13 +42,14 @@ export default function Blog(){
                 setContent(response.data.blog.content)
                 setPublishdate(response.data.blog.publishDate.toString())
             }
-
-            else{
-                console.log(response.data.msg)
-            }
           } 
-          catch (error) {
-            console.error("Error fetching blogs:", error);
+          catch(e) 
+          {
+            setAlertMessage({
+              show : true,
+              message : "Server Error",
+              status : 404
+            })
           }
           setblogLoading(false)
 

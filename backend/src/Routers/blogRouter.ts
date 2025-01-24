@@ -21,7 +21,7 @@ blogRouter.use('/*', async(c, next)=>{
         if(!header){
             c.status(202)
             return c.json({
-            msg : "Unauthorized"
+            msg : "Unauthorized Access"
             })
         }
 
@@ -44,7 +44,7 @@ blogRouter.use('/*', async(c, next)=>{
 blogRouter.post('/new-post', async(c)=>{
     const body = await c.req.json();
     const {success} = createPost.safeParse(body);
-    if(!success){
+    if(!success || body.title === "" || body.content === ""){
         c.status(202)
         return c.json({
             msg : "Invalid Input"
@@ -68,13 +68,13 @@ blogRouter.post('/new-post', async(c)=>{
 
         c.status(200)
         return c.json({
-            msg : "Blog Sucessfully Posted"
+            msg : "Post Sucessfully"
         })
     }
     catch(e){
         c.status(404)
         return c.json({
-            msg  :"Server Error at blog post"
+            msg  :"Server Error"
         })
     }
 
@@ -109,13 +109,13 @@ blogRouter.put('/update-post', async(c)=>{
 
         c.status(200)
         return c.json({
-            msg : "Post Updated Sucessfully"
+            msg : "Updated Sucessfully"
         })
     }
     catch(e){
         c.status(404)
         return c.json({
-            msg  :"Server Error at Update"
+            msg  :"Server Error"
         })
     }
 })
@@ -123,7 +123,6 @@ blogRouter.put('/update-post', async(c)=>{
 
 blogRouter.get('/unique/:id', async(c) => {
     const id = c.req.param('id');
-    console.log(id)
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())  
@@ -151,7 +150,7 @@ blogRouter.get('/unique/:id', async(c) => {
     catch(e){
         c.status(404)
         return c.json({
-            msg : "Server Error while fetching post with id"
+            msg : "Server Error"
         })
     }
 
@@ -183,7 +182,7 @@ blogRouter.get('/bulk', async(c)=>{
     catch(e){
         c.status(404)
         return c.json({
-            msg : "Serer Error while fetching data in bulk"
+            msg : "Serer Error"
         })
     }
 

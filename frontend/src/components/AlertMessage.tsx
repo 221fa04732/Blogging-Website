@@ -1,36 +1,30 @@
-import Alert from '@mui/material/Alert';
-import {AlertMess} from '../Atoms/AlertMess'
-import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
+import { useEffect } from 'react'
+import {useRecoilState} from 'recoil'
+import { AlertMessageatom } from '../Atoms/AlertMessage'
 
-export default function AlertMessage(props : {
-    Messagetype : number,
-    message : string
-}) {
+export default function AlertMessage(){
 
-    const [visible, setVisible] = useRecoilState(AlertMess)
+    const [notifications, setNotifications]= useRecoilState(AlertMessageatom)
 
     useEffect(()=>{
-        const alert = setTimeout(()=>{
-            setVisible(0);
+        const timeout = setTimeout(()=>{
+            setNotifications({
+                ...notifications,
+                show : false
+            })
         },3000)
+
+        return()=>{
+            clearTimeout(timeout)
+        }
+
+    },[notifications.show])
+
     
-        return() => clearTimeout(alert)
-
-    }, [visible])
-
-  return (
-    <div className={`fixed right-0 z-30  ${visible ? "block" : 'hidden'}`}>
-        <Alert></Alert>
-        <div>{props.message}</div>
-    </div>
-  );
-
+    return(<div className={`${notifications.status === 200 ? "bg-green-300" : "bg-red-300"} flex justify-center items-center pl-4 rounded-sm`}>
+        <div>{notifications.status===200 ? <img src='/mark.png' className='max-h-4 min-h-4 max-w-4 min-w-4'></img> : <img src='/cross.png' className='max-h-4 min-h-4 max-w-4 min-w-4'></img> }</div>
+        <div className={`text-black text-center py-1 pr-6 pl-4 rounded-sm`}>
+        {notifications.message}
+        </div>
+    </div>)
 }
-
-
-// 0 -> success
-// 1 -> info
-// 2 -> warning
-// 3 -> error
-
