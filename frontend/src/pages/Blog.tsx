@@ -76,8 +76,8 @@ export default function Blog(){
                       </div>
                     </div>
                 </div>
-                <div className='sm:text-4xl text-xl font-bold sm:pt-8 pt-6 sm:pr-24'>{ModifiedTitle}</div>
-                <div style={{ whiteSpace: "pre-wrap" }} className='sm:py-10 py-4 text-stone-300 w-full sm:px-5 px-2'>{content}</div>
+                <div className='sm:text-4xl text-xl font-bold pt-8 sm:pr-24'>{ModifiedTitle}</div>
+                <div style={{ whiteSpace: "pre-wrap" }} className='py-10 text-stone-300 w-full sm:px-5 px-2'>{content}</div>
               </div> 
             </div>)) : 
 

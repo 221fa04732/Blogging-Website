@@ -79,7 +79,7 @@ export default function Blogs() {
               < Loader />
             )}
           </div>
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center pt-8">
             <Footer />
           </div>
         </div>
