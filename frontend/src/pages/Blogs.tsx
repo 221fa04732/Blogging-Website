@@ -58,7 +58,7 @@ export default function Blogs() {
 
   return (<div className="bg-stone-800 min-h-screen flex flex-col items-center">
         <div className={`bg-stone-800 min-h-screen flex flex-col items-center ${postVisible === 1 ? "blur-sm" : "blur-none"} w-full`}>
-          <div className="w-full min-h-16 max-h-16 fixed bg-stone-800 border-b border-blue-500 flex justify-center">
+          <div className="w-full min-h-16 max-h-16 fixed bg-stone-800 border-b border-blue-500 flex justify-center z-30">
             <BlogsHeader />
           </div>
           <div className="mt-16 flex flex-col items-center w-full min-h-screen">

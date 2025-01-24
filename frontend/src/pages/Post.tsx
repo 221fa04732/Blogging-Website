@@ -17,7 +17,7 @@ export default function Post(){
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
 
-    return(<div className="flex flex-col items-center h-full bg-stone-700 border border-blue-500">
+    return(<div className="flex flex-col items-center h-full bg-stone-700 ">
 
         <header className="flex justify-between items-center py-2 w-11/12">
             <div className="flex items-center gap-4">
@@ -40,7 +40,7 @@ export default function Post(){
             
         </header>
 
-        <input className="w-11/12 mt-6 outline-none text-2xl bg-stone-700 text-white" 
+        <input className="w-11/12 sm:mt-6 mt-2 outline-none sm:text-2xl text-xl bg-stone-700 text-white" 
             placeholder="What do you want to talk about?"
             value={title}
             onChange={(e)=>{
@@ -49,7 +49,7 @@ export default function Post(){
             style={{ whiteSpace: "pre-wrap" }}
         ></input>
 
-        <textarea className="w-11/12 h-full my-4 outline-none bg-stone-700 text-white"
+        <textarea className="w-11/12 h-full sm:text-base text-sm my-4 outline-none bg-stone-700 text-white"
             placeholder="Start writing your blog"
             value={content}
             onChange={(e)=>{

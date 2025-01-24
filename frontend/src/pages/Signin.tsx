@@ -60,10 +60,10 @@ export default function Signin(){
 
             <div className='text-gray-500 mb-3'>
                 Create an account ? 
-                <Link className='pl-3 underline' to={'/signup'}>SignUp</Link>
+                <Link className='pl-3 underline text-blue-600' to={'/signup'}>SignUp</Link>
             </div>
 
-            <div className='w-8/12'>
+            <div className='w-10/12 sm:w-8/12'>
 
                 <div className='mt-3'>
                     <Authinput labelName='Email'  placeholder='mrityunjaykumar@gmail.com'

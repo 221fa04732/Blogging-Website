@@ -4,6 +4,6 @@ export default function Quote(){
             "The customer service I recieved was exceptional. The support team went above and beyond to adress my concerns."
         </div>
         <div className="pt-3 font-semibold">Mrityunjay Kuamr</div>
-        <div className="text-gray-500 text-sm">CEO | NewTech Inc</div>
+        <div className="text-gray-500 text-sm">CEO | BlogCraft Tech</div>
     </div>)
 }

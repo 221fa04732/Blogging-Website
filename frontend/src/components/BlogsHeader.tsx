@@ -6,7 +6,7 @@ export default function BlogsHeader(){
     const userName = localStorage.getItem("Loged-In-UserName") || "guest"
     const postVisible = useSetRecoilState(PostVisibleatom);
 
-    return(<div className="h-16 flex text-white items-center justify-between w-10/12">
+    return(<div className="h-16 flex text-white items-center justify-between w-11/12     sm:w-10/12">
         <div className="flex items-center gap-4">
             <img className="min-h-10 max-h-10 min-w-10 max-w-10" src="/blog.png"/>
             <div className="text-3xl font-semibold hidden sm:block">Medium-Blog</div>

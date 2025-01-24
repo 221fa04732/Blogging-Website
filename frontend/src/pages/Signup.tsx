@@ -61,10 +61,10 @@ export default function Signup(){
 
             <div className='text-gray-500 mb-3'>
                 Already have an account ? 
-                <Link className='pl-3 underline' to={'/signin'}>SignIn</Link>
+                <Link className='pl-3 underline text-blue-600' to={'/signin'}>SignIn</Link>
             </div>
 
-            <div className='w-8/12'>
+            <div className='w-10/12 sm:w-8/12'>
                 <div className='mt-3'>
                     <Authinput labelName='UserName'  placeholder='Mrityunjay Kumar'
                     onChange={(value) => handleInputChange('name', value)}/>
