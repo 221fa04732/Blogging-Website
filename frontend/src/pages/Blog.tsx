@@ -65,19 +65,19 @@ export default function Blog(){
         {(!blogloading ? ( userName === '' ? (<div className='flex justify-center'><Waiting /></div>) :
          
             (<div className='flex flex-col items-center w-full pt-8'>
-              <div className="flex flex-col justify-center items-center mt-16 w-10/12">
-                <div className='flex justify-end w-full gap-2'>
-                    <div className='flex flex-col items-end'>
-                      <div className='text-blue-500 text-4xl font-bold pb-2'>{ModifiedUsername}</div>
-                      <div className='text-gray-400 tex-sm pb-1'>{userEmail}</div>
+              <div className="flex flex-col justify-center items-center sm:mt-16 mt-10 sm:w-10/12 w-11/12">
+                <div className='flex justify-end w-full'>
+                    <div className='flex flex-col items-end border sm:p-6 p-2  border-gray-700 rounded-md hover:border-gray-500 hover:shadow-black hover:shadow-lg'>
+                      <div className='text-blue-500 sm:text-4xl text-xl font-bold pb-2'>{ModifiedUsername}</div>
+                      <div className='text-gray-400 sm:text-lg text-sm pb-1'>{userEmail}</div>
                       <div className='flex flex-col items-end text-gray-500 text-xs'>
                           <div>• {publishDate.slice(0,10)}</div>
                           <div>• {publishDate.slice(11,19)}</div>
                       </div>
                     </div>
                 </div>
-                <div className='text-4xl font-bold pt-8 pr-24'>{ModifiedTitle}</div>
-                <div style={{ whiteSpace: "pre-wrap" }} className='py-10 text-stone-300 w-full px-5'>{content}</div>
+                <div className='sm:text-4xl text-xl font-bold sm:pt-8 pt-6 sm:pr-24'>{ModifiedTitle}</div>
+                <div style={{ whiteSpace: "pre-wrap" }} className='sm:py-10 py-4 text-stone-300 w-full sm:px-5 px-2'>{content}</div>
               </div> 
             </div>)) : 
 

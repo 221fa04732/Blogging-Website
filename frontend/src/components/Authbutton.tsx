@@ -1,5 +1,6 @@
 import { useRecoilState } from "recoil"
-import { SignLoaderatom } from "../Atoms/SignLoader" 
+import { SignLoaderatom } from "../Atoms/SignLoader"
+import ButtonLoader from "./ButtonLoader" 
 
 export default function Authbutton(props : {name : string, fun : ()=>void}){
 
@@ -11,6 +12,6 @@ export default function Authbutton(props : {name : string, fun : ()=>void}){
                 setSignloading(true)
             }
         }}>
-        {singloading ? "Please Wait..." : props.name}
+        {singloading ? (<ButtonLoader name={"Please Wait"}/>) : props.name}
     </button>)
 }

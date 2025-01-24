@@ -6,6 +6,7 @@ import axios from 'axios'
 import { BACKEND_URL } from "../config"
 import { BlogsLoadingatom } from "../Atoms/BlogsLoader"
 import UpperCase from "../components/UpperCase"
+import ButtonLoader from "../components/ButtonLoader"
 
 
 export default function Post(){
@@ -31,7 +32,7 @@ export default function Post(){
                         setPostloading(true)
                     }
                 }} className="font-medium bg-green-600 px-4 py-2 rounded-lg mr-4">
-                    <div className="rounded-lg text-white">{postloading ? "Publishing..." : "Publish Your Blog"}</div> 
+                    <div className="rounded-lg text-white">{postloading ? (<ButtonLoader name={"Publishing"} />) : "Publish Your Blog"}</div> 
                 </button>
                 <button onClick={()=>{
                     setPostVisible(0);
