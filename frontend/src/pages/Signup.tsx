@@ -82,7 +82,7 @@ export default function Signup(){
                 </div>
                 
                 <div className='mt-3'>
-                    <Passwordinput labelName='Password'  placeholder='123456'
+                    <Passwordinput labelName='Password'  placeholder='12345678'
                     onChange={(value) => handleInputChange('password', value)}/>
                 </div>
 

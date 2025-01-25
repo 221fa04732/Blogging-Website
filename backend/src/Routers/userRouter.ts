@@ -80,64 +80,64 @@ userRouter.post('/signup', async (c) => {
 })
 
 
-userRouter.post('/signin', async (c)=>{
+    userRouter.post('/signin', async (c)=>{
+        
+        const body =await c.req.json();
+        const verifyBody =userSignin.safeParse(body);
 
-    const body =await c.req.json();
-    const verifyBody =userSignin.safeParse(body);
-
-    if(!verifyBody.success){
-        c.status(202)
-        return c.json({
-            msg : "Input Is Invalid"
-        })
-    }
-
-    const email = lower(body.email)
-    const name = lower(body.name)
-
-    const prisma = new PrismaClient({
-        datasourceUrl: c.env.DATABASE_URL
-    }).$extends(withAccelerate())
-
-    try{
-        const user =await prisma.user.findUnique({
-            where:{
-                email : email
-            }
-        })
-
-        if(!user){
+        if(!verifyBody.success){
             c.status(202)
             return c.json({
-                msg : "Email Not Found"
-            })
-        }
-
-        const salt = user.salt
-        const hashPassword =await hashPasswordWithSalt(body.password, salt)
-
-        if(user.password != hashPassword){
-            c.status(202)
-            return c.json({
-                msg : "Password Is Incorrect"
+                msg : "Input Is Invalid"
             })
         }
         
-        const token = await sign({id: user.id}, c.env.JWT_SECRET)
-        c.status(200)
-        return c.json({
-            token : token,
-            name : user.name,
-            email : user.email,
-            id : user.id,
-            msg : "Logged In Successfully",
-        })
-    }
-    catch(e){
-        c.status(404)
-        return c.json({
-        msg : "Internal Server Error"
-        })
-    }
+        const email = lower(body.email)
 
-})
+        const prisma = new PrismaClient({
+            datasourceUrl: c.env.DATABASE_URL
+        }).$extends(withAccelerate())
+
+        try{
+            const user = await prisma.user.findUnique({
+                where:{
+                    email : email
+                }
+            })
+
+            if(!user){
+                c.status(202)
+                return c.json({
+                    msg : "Email Not Found"
+                })
+            }
+
+            const salt = user.salt
+            const hashPassword =await hashPasswordWithSalt(body.password, salt)
+
+            if(user.password != hashPassword){
+                c.status(202)
+                return c.json({
+                    msg : "Password Is Incorrect"
+                })
+            }
+            
+            const token = await sign({id: user.id}, c.env.JWT_SECRET)
+
+            c.status(200)
+            return c.json({
+                token : token,
+                name : user.name,
+                email : user.email,
+                id : user.id,
+                msg : "Logged In Successfully",
+            })
+        }
+        catch(e){
+            c.status(404)
+            return c.json({
+            msg : "Internal Server Error"
+            })
+        }
+
+    })

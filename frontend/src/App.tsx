@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-      <div className={`fixed z-50 right-0 top-4 ${alertMessage.show ? "block" : "hidden"}`}>
+      <div className={`fixed z-50 right-0 top-16 ${alertMessage.show ? "block" : "hidden"}`}>
         <AlertMessage />
       </div>
       <BrowserRouter>
