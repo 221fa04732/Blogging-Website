@@ -3,6 +3,9 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import {sign} from 'hono/jwt'
 import {userSignup, userSignin} from '@kumarmrityunjay/medium-package'
+import { hashPasswordWithSalt } from '../Secure/hashPassword'
+import { generateSalt } from '../Secure/CreateSalt'
+import { lower } from '../OtherFun/lower'
 
 export const userRouter = new Hono<{
     Bindings:{
@@ -12,15 +15,19 @@ export const userRouter = new Hono<{
 }>()
 
 userRouter.post('/signup', async (c) => {
+
     const body =await c.req.json();
-    const verifyEmail = userSignup.safeParse(body)
-    if(!verifyEmail.success){
+    const verifyUser = userSignup.safeParse(body)
+
+    if(!verifyUser.success){
         c.status(202)
         return c.json({
             msg : "Input Is Invalid"
         })
     }
 
+    const email = lower(body.email)
+    const name = lower(body.name)
 
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
@@ -29,7 +36,7 @@ userRouter.post('/signup', async (c) => {
     try{
         const alreadyExitUser = await prisma.user.findFirst({
             where:{
-                email : body.email
+                email : email
             }
         })
 
@@ -40,12 +47,16 @@ userRouter.post('/signup', async (c) => {
             })
         }
 
+        const salt = generateSalt()
+        const hashPassword =await hashPasswordWithSalt(body.password, salt)
+
         const user = await prisma.user.create({
-        data: {
-            email : body.email,
-            name : body.name,
-            password : body.password
-        },
+            data: {
+                email : email,
+                name : name,
+                password : hashPassword,
+                salt : salt
+            },
         })
 
         const token =await sign({id : user.id}, c.env.JWT_SECRET);
@@ -70,14 +81,19 @@ userRouter.post('/signup', async (c) => {
 
 
 userRouter.post('/signin', async (c)=>{
+
     const body =await c.req.json();
     const verifyBody =userSignin.safeParse(body);
+
     if(!verifyBody.success){
         c.status(202)
         return c.json({
             msg : "Input Is Invalid"
         })
     }
+
+    const email = lower(body.email)
+    const name = lower(body.name)
 
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL
@@ -86,7 +102,7 @@ userRouter.post('/signin', async (c)=>{
     try{
         const user =await prisma.user.findUnique({
             where:{
-                email : body.email
+                email : email
             }
         })
 
@@ -97,7 +113,10 @@ userRouter.post('/signin', async (c)=>{
             })
         }
 
-        if(user.password != body.password){
+        const salt = user.salt
+        const hashPassword =await hashPasswordWithSalt(body.password, salt)
+
+        if(user.password != hashPassword){
             c.status(202)
             return c.json({
                 msg : "Password Is Incorrect"
