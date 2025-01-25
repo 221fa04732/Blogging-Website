@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { BlogLoaderatom } from "../Atoms/BlogLoader";
 import { useSetRecoilState } from "recoil";
 import UpperCase from "./UpperCase";
+import { IntlProvider, FormattedDate } from "react-intl";
 
 export default function BlogCard(
     props : {
@@ -15,6 +16,7 @@ export default function BlogCard(
     
     const newUserName : string = UpperCase(props.name);
     const setblogLoading = useSetRecoilState(BlogLoaderatom)
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     return (<div className="flex flex-col mt-4 mb-4 w-11/12 sm:w-10/12 text-white p-2 sm:p-8 border-b border-gray-500">
         <div className="flex items-center justify-between">
@@ -24,7 +26,16 @@ export default function BlogCard(
             </div>
             <div className="flex items-center">
                 <div className="bg-gray-500 max-h-2 min-h-2 max-w-2 min-w-2 rounded-full"></div>
-                <div className="pl-1 text-gray-600 font-medium text-xs sm:text-base">{props.postDate.slice(0,10)}</div>
+                <div className="pl-1 text-gray-600 font-medium text-xs sm:text-base">
+                    <div>
+                        <IntlProvider locale="en" timeZone={userTimezone}>
+                            <FormattedDate value={new Date(props.postDate)}
+                            month="short" 
+                            day='2-digit'
+                            year="numeric" />
+                        </IntlProvider>
+                    </div>
+                </div>
             </div>
         </div>
         <Link to={`/blog/${props.id}`} onClick={()=>{
