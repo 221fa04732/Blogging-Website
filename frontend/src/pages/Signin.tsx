@@ -45,7 +45,7 @@ export default function Signin(){
         catch(e){
             setAlertMessage({
                 show : true,
-                message : "Server Error",
+                message : "Internal Server Error",
                 status : 404
             })
         }

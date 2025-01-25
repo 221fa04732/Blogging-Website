@@ -92,7 +92,7 @@ async function blogPost(title : string, content : string, setTitle : any, setCon
     catch(e){
         setAlertMessage({
             show : true,
-            message : "Server Error",
+            message : "Internal Server Error",
             status : 404
         })
     }

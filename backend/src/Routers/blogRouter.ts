@@ -47,7 +47,7 @@ blogRouter.post('/new-post', async(c)=>{
     if(!success || body.title === "" || body.content === ""){
         c.status(202)
         return c.json({
-            msg : "Invalid Input"
+            msg : "Input Is Invalid"
         })
     }
 
@@ -68,13 +68,13 @@ blogRouter.post('/new-post', async(c)=>{
 
         c.status(200)
         return c.json({
-            msg : "Post Sucessfully"
+            msg : "Post Published"
         })
     }
     catch(e){
         c.status(404)
         return c.json({
-            msg  :"Server Error"
+            msg  :"Internal Server Error"
         })
     }
 
@@ -88,7 +88,7 @@ blogRouter.put('/update-post', async(c)=>{
     if(!success){
         c.status(202)
         return c.json({
-            msg : "Invalid Input"
+            msg : "Input Is Invalid"
         })
     }
 
@@ -109,13 +109,13 @@ blogRouter.put('/update-post', async(c)=>{
 
         c.status(200)
         return c.json({
-            msg : "Updated Sucessfully"
+            msg : "Update Successful"
         })
     }
     catch(e){
         c.status(404)
         return c.json({
-            msg  :"Server Error"
+            msg  :"Internal Server Error"
         })
     }
 })
@@ -150,7 +150,7 @@ blogRouter.get('/unique/:id', async(c) => {
     catch(e){
         c.status(404)
         return c.json({
-            msg : "Server Error"
+            msg : "Internal Server Error"
         })
     }
 
@@ -182,7 +182,7 @@ blogRouter.get('/bulk', async(c)=>{
     catch(e){
         c.status(404)
         return c.json({
-            msg : "Serer Error"
+            msg : "Internal Server Error"
         })
     }
 

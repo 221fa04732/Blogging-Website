@@ -50,7 +50,7 @@ export default function Blog(){
           {
             setAlertMessage({
               show : true,
-              message : "Server Error",
+              message : "Internal Server Error",
               status : 404
             })
           }

@@ -17,54 +17,54 @@ userRouter.post('/signup', async (c) => {
     if(!verifyEmail.success){
         c.status(202)
         return c.json({
-            msg : "Invalid Input"
+            msg : "Input Is Invalid"
         })
     }
 
-//  connection
-const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-}).$extends(withAccelerate())
 
-try{
-    const alreadyExitUser = await prisma.user.findFirst({
-        where:{
-            email : body.email
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    try{
+        const alreadyExitUser = await prisma.user.findFirst({
+            where:{
+                email : body.email
+            }
+        })
+
+        if(alreadyExitUser){
+            c.status(202)
+            return c.json({
+                msg : "User Already Registered"
+            })
         }
-    })
 
-    if(alreadyExitUser){
-        c.status(202)
+        const user = await prisma.user.create({
+        data: {
+            email : body.email,
+            name : body.name,
+            password : body.password
+        },
+        })
+
+        const token =await sign({id : user.id}, c.env.JWT_SECRET);
+
+        c.status(200)
         return c.json({
-            msg : "User Already Exit"
+            token : token,
+            name : user.name,
+            email : user.email,
+            id : user.id,
+            msg  :"Account Created Successfully",
         })
     }
-
-    const user = await prisma.user.create({
-    data: {
-        email : body.email,
-        name : body.name,
-        password : body.password
-    },
-    })
-
-    const token =await sign({id : user.id}, c.env.JWT_SECRET);
-
-    c.status(200)
-    return c.json({
-        token : token,
-        name : user.name,
-        email : user.email,
-        id : user.id,
-        msg  :"SignUp Sucessfully",
-    })
-}
-catch(e){
-    c.status(404)
-    return c.json({
-    msg : "Server Error"
-    })
-}
+    catch(e){
+        c.status(404)
+        return c.json({
+        msg : "Internal Server Error"
+        })
+    }
 
 })
 
@@ -75,50 +75,50 @@ userRouter.post('/signin', async (c)=>{
     if(!verifyBody.success){
         c.status(202)
         return c.json({
-            msg : "Invalid Input"
+            msg : "Input Is Invalid"
         })
     }
 
-const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL
-}).$extends(withAccelerate())
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL
+    }).$extends(withAccelerate())
 
-try{
-    const user =await prisma.user.findUnique({
-        where:{
-            email : body.email
+    try{
+        const user =await prisma.user.findUnique({
+            where:{
+                email : body.email
+            }
+        })
+
+        if(!user){
+            c.status(202)
+            return c.json({
+                msg : "Email Not Found"
+            })
         }
-    })
 
-    if(!user){
-        c.status(202)
+        if(user.password != body.password){
+            c.status(202)
+            return c.json({
+                msg : "Password Is Incorrect"
+            })
+        }
+        
+        const token = await sign({id: user.id}, c.env.JWT_SECRET)
+        c.status(200)
         return c.json({
-            msg : "Email Not Registred"
+            token : token,
+            name : user.name,
+            email : user.email,
+            id : user.id,
+            msg : "Logged In Successfully",
         })
     }
-
-    if(user.password != body.password){
-        c.status(202)
+    catch(e){
+        c.status(404)
         return c.json({
-            msg : "Incorrect Password"
+        msg : "Internal Server Error"
         })
     }
-    
-    const token = await sign({id: user.id}, c.env.JWT_SECRET)
-    c.status(200)
-    return c.json({
-        token : token,
-        name : user.name,
-        email : user.email,
-        id : user.id,
-        msg : "SignIn Sucessfully",
-    })
-}
-catch(e){
-    c.status(404)
-    return c.json({
-    msg : "Server Error"
-    })
-}
 
 })
