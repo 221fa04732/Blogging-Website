@@ -33,13 +33,13 @@ export default function Signin(){
                 localStorage.setItem("Loged-In-UserId", data.data.id || "123456")
                 navigate('/blogs')
             }
-            else{
-                setAlertMessage({
-                    show : true,
-                    message : data.data.msg,
-                    status : data.status
-                })
-            }
+            
+            setAlertMessage({
+                show : true,
+                message : data.data.msg,
+                status : data.status
+            })
+         
         }
         catch(e){
             setAlertMessage({

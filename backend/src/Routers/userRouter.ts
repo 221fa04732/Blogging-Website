@@ -13,25 +13,11 @@ export const userRouter = new Hono<{
 
 userRouter.post('/signup', async (c) => {
     const body =await c.req.json();
-    const verifyEmail = userSignup.safeParse('email', body.email);
+    const verifyEmail = userSignup.safeParse(body)
     if(!verifyEmail.success){
         c.status(202)
         return c.json({
-            msg : "Invalid Email"
-        })
-    }
-    const verifyPassword = userSignup.safeParse('Password', body.password);
-    if(!verifyPassword.success){
-        c.status(202)
-        return c.json({
-            msg : "Invalid Password"
-        })
-    }
-    const verifyUsername = userSignup.safeParse('name', body.name);
-    if(!verifyUsername.success){
-        c.status(202)
-        return c.json({
-            msg : "Invalid UserName"
+            msg : "Invalid Input"
         })
     }
 
