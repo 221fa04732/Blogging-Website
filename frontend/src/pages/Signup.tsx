@@ -1,6 +1,7 @@
 import Quote from '../components/Quote'
 import Authbutton from '../components/Authbutton'
-import Authinput from '../components/AuthInput'
+import Emailinput from '../components/EmailInput'
+import Passwordinput from '../components/PasswordInput'
 import { userSignupType } from '@kumarmrityunjay/medium-package'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -71,18 +72,18 @@ export default function Signup(){
 
             <div className='w-10/12 sm:w-8/12'>
                 <div className='mt-3'>
-                    <Authinput labelName='UserName'  placeholder='Mrityunjay Kumar'
+                    <Emailinput labelName='UserName'  placeholder='Mrityunjay Kumar'
                     onChange={(value) => handleInputChange('name', value)}/>
                 </div>
 
                 <div className='mt-3'>
-                    <Authinput labelName='Email'  placeholder='mrityunjaykumar@gmail.com'
+                    <Emailinput labelName='Email'  placeholder='mrityunjaykumar@gmail.com'
                     onChange={(value) => handleInputChange('email', value)}/>
                 </div>
                 
                 <div className='mt-3'>
-                    <Authinput labelName='Password'  placeholder='123456'
-                    onChange={(value) => handleInputChange('password', value)} type="password"/>
+                    <Passwordinput labelName='Password'  placeholder='123456'
+                    onChange={(value) => handleInputChange('password', value)}/>
                 </div>
 
                 <div className='mt-3'>
