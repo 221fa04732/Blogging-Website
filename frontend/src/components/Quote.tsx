@@ -1,5 +1,5 @@
 export default function Quote(){
-    return (<div className="h-screen bg-stone-100 flex flex-col justify-center items-start p-24">
+    return (<div className="h-screen bg-zinc-800 text-white flex flex-col justify-center items-start p-24">
         <div className="font-bold text-2xl">
             "Welcome to BlogCraft, where creativity meets expression. Choose your topic, craft your story, and let your voice inspire the world!"
         </div>

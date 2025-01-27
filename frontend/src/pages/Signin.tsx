@@ -59,7 +59,7 @@ export default function Signin(){
         }))
     }
 
-    return (<div className='grid grid-cols-1 md:grid-cols-2'>
+    return (<div className='grid grid-cols-1 md:grid-cols-2 bg-stone-800 text-white'>
         <div className='h-screen flex flex-col justify-center items-center'>
 
             <div className='font-bold text-4xl mb-1 font-sans'>

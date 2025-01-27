@@ -5,7 +5,7 @@ import ButtonLoader from "./ButtonLoader"
 export default function Authbutton(props : {name : string, fun : ()=>void}){
 
     const [singloading, setSignloading] = useRecoilState(SignLoaderatom)
-    return(<button className="bg-stone-800 text-white w-full py-1.5 rounded" 
+    return(<button className="text-white w-full py-2 rounded shadow-stone-950 hover:shadow-black shadow-sm hover:shadow-md " 
         onClick={()=>{
             if(!singloading){
                 props.fun()
