@@ -4,6 +4,7 @@ import ProfileCard from "../components/ProfileCard"
 import EditProfile from "../components/EditProfile"
 import { ProfileLoadingatom } from "../Atoms/ProfileLoader"
 import { useRecoilValue } from "recoil"
+import ProfileLoader from "./ProfileLoader"
 
 export default function MyProfile(){
 
@@ -15,14 +16,14 @@ export default function MyProfile(){
         </div>
 
         <div className={`w-full flex flex-col items-center`}>
-            {(profileLoding ? <div className="min-h-screen">loading</div> : 
+            {(profileLoding ? <ProfileLoader /> : 
                 <div className="w-full flex flex-col items-center">
                 <ProfileCard />
                 <EditProfile />
             </div>)}
         </div>
 
-        <div className="flex justify-center w-full mt-16">
+        <div className="flex justify-center w-full sm:mt-16">
             < Footer />
         </div>
     </div>)

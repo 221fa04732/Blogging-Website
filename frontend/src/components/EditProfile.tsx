@@ -124,11 +124,11 @@ export default function EditProfile(){
     const name = localStorage.getItem("Loged-In-UserName") || ""
     const userName = UpperCase(name)
 
-    return(<div className="bg-stone-800  mt-16 w-11/12 sm:w-10/12 flex flex-col items-center font-handwritten">
+    return(<div className="bg-stone-800  sm:mt-16 mt-10 w-11/12 sm:w-10/12 flex flex-col items-center font-handwritten">
         
-        <fieldset className="border border-gray-300 w-11/12 mb-16 flex flex-col justify-center p-6">
-            <legend className="text-lg ml-6 px-1">Update Username</legend>
-            <div className="text-gray-400 text-xl pb-6">Current UserName : {userName}</div>
+        <fieldset className="border border-gray-300 sm:w-11/12 w-full mb-16 flex flex-col justify-center sm:p-6 p-2 pb-6">
+            <legend className="sm:text-lg text-base sm:ml-6 ml-2 px-1">Update Username</legend>
+            <div className="text-gray-400 sm:text-xl text-sm pb-6">Current UserName : {userName}</div>
             <label className="text-gray-400">New UserName</label>
             <input className="w-full bg-stone-800 focus:outline-none border border-gray-600 rounded-sm px-4 py-2"
             type="text" 
@@ -146,9 +146,8 @@ export default function EditProfile(){
             
         </fieldset>
 
-        <fieldset className="border border-gray-300 w-11/12 mb-16 flex flex-col justify-center p-6">
-            <legend className="text-lg ml-6 px-1">Update Password</legend>
-
+        <fieldset className="border border-gray-300 sm:w-11/12 w-full mb-16 flex flex-col justify-center sm:p-6 p-2 pb-6">
+            <legend className="sm:text-lg text-base sm:ml-6 ml-2 px-1">Update Password</legend>
             <label className="text-gray-400">Current Password</label>
             <input className="w-full bg-stone-800 focus:outline-none border border-gray-600 rounded-sm px-4 py-2"
             type="text" 
