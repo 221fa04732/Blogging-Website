@@ -73,7 +73,7 @@ async function blogPost(title : string, content : string, setTitle : any, setCon
             content : content,
         },{
             headers:{
-                Authorization : localStorage.getItem("Medium-Blog-Token")
+                Authorization : localStorage.getItem("BlogCraft-Token")
             }
         })
 

@@ -33,7 +33,7 @@ export default function Blog(){
           try {
             const response = await axios.get(`${BACKEND_URL}/api/v1/blog/unique/${blogID}`, {
               headers: {
-                Authorization: localStorage.getItem("Medium-Blog-Token"),
+                Authorization: localStorage.getItem("BlogCraft-Token"),
               },
             });
 

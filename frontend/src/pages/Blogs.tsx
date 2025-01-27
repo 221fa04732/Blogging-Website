@@ -26,7 +26,7 @@ type blogprop = {
 export default function Blogs() {
 
   const postVisible = useRecoilValue(PostVisibleatom)
-  const token = localStorage.getItem("Medium-Blog-Token");
+  const token = localStorage.getItem("BlogCraft-Token");
   const [blogs, setBlogs] = useState<blogprop[]>([]);
   const [blogloading, setblogLoading] = useRecoilState(BlogsLoadingatom)
   const setAlertMessage = useSetRecoilState(AlertMessageatom)

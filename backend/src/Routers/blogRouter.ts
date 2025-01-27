@@ -187,3 +187,44 @@ blogRouter.get('/bulk', async(c)=>{
     }
 
 })
+
+
+
+blogRouter.get('/my-blog', async(c)=>{
+
+    const id = c.req.query("id");
+
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    try{
+        const blog = await prisma.post.findMany({
+            where :{
+                author :{
+                    id : id
+                }
+            },
+            include: {
+                author: {
+                  select: {
+                    name: true, 
+                  },
+                },
+            },
+        });
+
+        c.status(200)
+        return c.json({
+            blog
+        })  
+        
+    }
+    catch(e){
+        c.status(404)
+        return c.json({
+            msg : "Internal Server Error"
+        })
+    }
+
+})

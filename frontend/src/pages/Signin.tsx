@@ -28,7 +28,7 @@ export default function Signin(){
             const data = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, signinValue)
             if(data.status===200){
                 const token = data.data.token;
-                localStorage.setItem('Medium-Blog-Token',`Barrer ${token}`)
+                localStorage.setItem('BlogCraft-Token',`Barrer ${token}`)
                 localStorage.setItem("Loged-In-UserName", data.data.name || "guest")
                 localStorage.setItem("Loged-In-UserEmail", data.data.email || "guest@gmail.com")
                 localStorage.setItem("Loged-In-UserId", data.data.id || "123456")
