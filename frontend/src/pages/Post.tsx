@@ -67,34 +67,43 @@ export default function Post(){
 
 async function blogPost(title : string, content : string, setTitle : any, setContent : any, setPostloading : any, setPostVisible : any, setblogsLoading : any, setAlertMessage : any){
 
-    try{
-        const createPost = await axios.post(`${BACKEND_URL}/api/v1/blog/new-post`,{
-            title : title,
-            content : content,
-        },{
-            headers:{
-                Authorization : localStorage.getItem("BlogCraft-Token")
-            }
-        })
-
-        if(createPost.status === 200){
-            setTitle('')
-            setContent('')
-            setblogsLoading(true)
-            setPostVisible(0)
-        }
+    if(title === "" || content === ""){
         setAlertMessage({
             show : true,
-            message : createPost.data.msg,
-            status : createPost.status
-        })
-    }
-    catch(e){
-        setAlertMessage({
-            show : true,
-            message : "Internal Server Error",
+            message : "Invalid Input",
             status : 404
         })
+    }
+    else{
+        try{
+            const createPost = await axios.post(`${BACKEND_URL}/api/v1/blog/new-post`,{
+                title : title,
+                content : content,
+            },{
+                headers:{
+                    Authorization : localStorage.getItem("BlogCraft-Token")
+                }
+            })
+    
+            if(createPost.status === 200){
+                setTitle('')
+                setContent('')
+                setblogsLoading(true)
+                setPostVisible(0)
+            }
+            setAlertMessage({
+                show : true,
+                message : createPost.data.msg,
+                status : createPost.status
+            })
+        }
+        catch(e){
+            setAlertMessage({
+                show : true,
+                message : "Internal Server Error",
+                status : 404
+            })
+        }
     }
 
     setPostloading(false)

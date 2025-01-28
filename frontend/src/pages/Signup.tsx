@@ -25,28 +25,44 @@ export default function Signup(){
 
     async function signUp(){
         
-        try{
-            const data = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, signupValue)
-            if(data.status===200){
-                const token = data.data.token;
-                localStorage.setItem('BlogCraft-Token',`Barrer ${token}`)
-                localStorage.setItem("Loged-In-UserName", data.data.name || "guest")
-                localStorage.setItem("Loged-In-UserEmail", data.data.email || "guest@gmail.com")
-                localStorage.setItem("Loged-In-UserId", data.data.id || "123456")
-                navigate('/blogs')
-            }
+        if(signupValue.email === '' || signupValue.password === "" || signupValue.name === ""){
             setAlertMessage({
                 show : true,
-                message : data.data.msg,
-                status : data.status
-            })
-        }
-        catch(e){
-            setAlertMessage({
-                show : true,
-                message : "Internal Server Error",
+                message : "Invalid Input",
                 status : 404
             })
+        }
+        else if(signupValue.password.length < 8 ){
+            setAlertMessage({
+                show : true,
+                message : "Invalid Password",
+                status : 404
+            })
+        }
+        else{
+            try{
+                const data = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, signupValue)
+                if(data.status===200){
+                    const token = data.data.token;
+                    localStorage.setItem('BlogCraft-Token',`Barrer ${token}`)
+                    localStorage.setItem("Loged-In-UserName", data.data.name || "guest")
+                    localStorage.setItem("Loged-In-UserEmail", data.data.email || "guest@gmail.com")
+                    localStorage.setItem("Loged-In-UserId", data.data.id || "123456")
+                    navigate('/blogs')
+                }
+                setAlertMessage({
+                    show : true,
+                    message : data.data.msg,
+                    status : data.status
+                })
+            }
+            catch(e){
+                setAlertMessage({
+                    show : true,
+                    message : "Internal Server Error",
+                    status : 404
+                })
+            }
         }
         setSignloading(false)
     }
