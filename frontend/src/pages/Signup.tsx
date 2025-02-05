@@ -102,7 +102,7 @@ export default function Signup(){
                     onChange={(value) => handleInputChange('password', value)}/>
                 </div>
 
-                <div className='text-red-600 text-sm'>Password must be greater than 8</div>
+                <div className={`text-red-600 text-sm ${signupValue.password.length >=8 ? 'hidden' : 'block'}`}>Password must be at least 8 char</div>
 
                 <div className='mt-3'>
                     <Authbutton name='Sign Up' fun={signUp} />
