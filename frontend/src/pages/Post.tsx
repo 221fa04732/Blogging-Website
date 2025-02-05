@@ -31,7 +31,6 @@ export default function Post(){
                 <button onClick={()=>{
                     if(!postloading){
                         blogPost(title, content, setTitle, setContent, setPostloading,setPostVisible, setblogsLoading, setAlertMessage)
-                        setPostloading(true)
                     }
                 }} className="font-medium bg-green-600 px-4 py-2 rounded-lg mr-4">
                     <div className="rounded-lg text-white">{postloading ? (<ButtonLoader name={"Publishing"} />) : "Publish Your Blog"}</div> 
@@ -73,8 +72,10 @@ async function blogPost(title : string, content : string, setTitle : any, setCon
             message : "Invalid Input",
             status : 404
         })
+        return
     }
     else{
+        setPostloading(true)
         try{
             const createPost = await axios.post(`${BACKEND_URL}/api/v1/blog/new-post`,{
                 title : title,

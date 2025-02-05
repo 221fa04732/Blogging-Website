@@ -31,6 +31,7 @@ export default function Signup(){
                 message : "Invalid Input",
                 status : 404
             })
+            return
         }
         else if(signupValue.password.length < 8 ){
             setAlertMessage({
@@ -38,8 +39,10 @@ export default function Signup(){
                 message : "Invalid Password",
                 status : 404
             })
+            return
         }
         else{
+            setSignloading(true)
             try{
                 const data = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, signupValue)
                 if(data.status===200){

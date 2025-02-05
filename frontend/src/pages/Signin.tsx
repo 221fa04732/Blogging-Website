@@ -30,6 +30,7 @@ export default function Signin(){
                 message : "Invalid Input",
                 status : 404
             })
+            return
         }
         else if(signinValue.password.length < 8 ){
             setAlertMessage({
@@ -37,8 +38,12 @@ export default function Signin(){
                 message : "Invalid Password",
                 status : 404
             })
+            return
         }
         else{
+
+            setSignloading(true)
+
             try{
                 const data = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, signinValue)
                 if(data.status===200){
@@ -64,8 +69,9 @@ export default function Signin(){
                     status : 404
                 })
             }
+
+            setSignloading(false)
         }
-        setSignloading(false)
     }
     
     const handleInputChange = (field: keyof userSigninType, value: string) => {
