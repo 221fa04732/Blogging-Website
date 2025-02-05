@@ -164,6 +164,7 @@ export default function EditProfile(){
                 setNewpassword(e.target.value)
             }}
             ></input>
+            <div className={`text-red-600 text-sm ${newPassword.length >= 8 ? 'hidden' : 'block'}`}>Password must be at least 8 char</div>
             <label className="pt-6 text-gray-400">Confirm Password</label>
             <input className="w-full bg-stone-800 focus:outline-none border border-gray-600 rounded-sm px-4 py-2"
             type="text"
@@ -172,7 +173,7 @@ export default function EditProfile(){
                 setConfirmpassword(e.target.value)
             }}
             ></input>
-            <div className='text-red-600 text-sm'>Password must be greater than 8</div>
+            <div className={`text-red-600 text-sm ${confirmPassword.length >= 8 ? 'hidden' : 'block'}`}>Password must be at least 8 char</div>
             <div className="flex justify-center w-full mt-8">
                 <button onClick={()=>{
                     setProfileloading(true)
