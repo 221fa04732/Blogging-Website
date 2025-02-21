@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BlogCard from "../components/BlogCard";
+import BlogsCard from "../components/BlogsCard";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import Loader from "./BlogsLoader";
@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import { BlogsLoadingatom } from "../Atoms/BlogsLoader";
 import Waiting from "./Waiting";
 import { AlertMessageatom } from "../Atoms/AlertMessage";
+import { useNavigate } from "react-router-dom";
 
 type blogprop = {
 
@@ -26,10 +27,10 @@ type blogprop = {
 export default function Blogs() {
 
   const postVisible = useRecoilValue(PostVisibleatom)
-  const token = localStorage.getItem("BlogCraft-Token");
   const [blogs, setBlogs] = useState<blogprop[]>([]);
   const [blogloading, setblogLoading] = useRecoilState(BlogsLoadingatom)
   const setAlertMessage = useSetRecoilState(AlertMessageatom)
+  const navigate = useNavigate();
 
   useEffect(() => {
     let intervalId;
@@ -37,10 +38,12 @@ export default function Blogs() {
     const fetchBlogs = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-          headers: {
-            Authorization: token,
-          },
+          withCredentials: true
         });
+
+        if(response.status === 202){
+          navigate('/signin')
+        }
 
         if (response) {
           setBlogs(response.data.blog);
@@ -49,6 +52,7 @@ export default function Blogs() {
       } 
       catch (error) 
       {
+        
         setAlertMessage({
           show : true,
           message : "Internal Server Error",
@@ -74,7 +78,7 @@ export default function Blogs() {
           <div className="mt-16 flex flex-col items-center w-full min-h-screen">
             {!blogloading ? (blogs.length > 0 ? (
               [...blogs].reverse().map((blog) => (
-                <BlogCard
+                <BlogsCard
                   key={blog.id}
                   id={blog.id}
                   postDate={blog.publishDate.toString()}

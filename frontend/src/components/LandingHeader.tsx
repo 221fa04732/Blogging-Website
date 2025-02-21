@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import { Profileatom } from "../Atoms/Profile";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Useratom } from "../Atoms/User";
 
 
-export default function BlogHeader(){
+export default function LandingHeader(){
 
     const userInfo = useRecoilValue(Useratom)
 
@@ -16,8 +15,8 @@ export default function BlogHeader(){
             <img className="min-h-10 max-h-10 min-w-10 max-w-10" src="/blog.png"/>
             <div className="text-3xl font-semibold hidden sm:block">BlogCraft</div>
         </div>
+
         <div className="flex items-center gap-4">
-            <Link to={'/blogs'} className=" font-medium bg-green-600 px-4 py-2 rounded-lg">← Go Back</Link>
             <button onClick={(e)=>{
                 e.stopPropagation();
                 profileVisible ? setProfileVisible(false) : setProfileVisible(true)

@@ -2,13 +2,15 @@ import { Link, useLocation } from "react-router-dom";
 import UpperCase from "./UpperCase";
 import { useNavigate } from "react-router-dom";
 import { Profileatom } from "../Atoms/Profile";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect, useRef } from "react";
+import { Useratom } from "../Atoms/User";
 
 export default function Profile(){
 
     const profiledropdown = useRef<HTMLDivElement>(null)
     const location = useLocation()
+    const userInfo = useRecoilValue(Useratom)
     
     useEffect(()=>{
         setProfileVisible(false)
@@ -20,6 +22,8 @@ export default function Profile(){
         }
     }
 
+    
+
     useEffect(()=>{
         document.addEventListener('click', closeDropdown)
         return () => {
@@ -27,7 +31,7 @@ export default function Profile(){
         }
     },[])
 
-    const name = localStorage.getItem("Loged-In-UserName") || ""
+    const name = userInfo.name || ""
     const UpperCaseName = UpperCase(name).slice(0,20)
     const navigate = useNavigate();
     const setProfileVisible = useSetRecoilState(Profileatom)
@@ -58,16 +62,17 @@ export default function Profile(){
             </Link>
         </div>
         <button onClick={()=>{
-            localStorage.removeItem("BlogCraft-Token")
-            localStorage.removeItem("Loged-In-UserEmail")
-            localStorage.removeItem("Loged-In-UserId")
-            localStorage.removeItem("Loged-In-UserName")
-            localStorage.removeItem("Specific-Blog-Id")
+            logout();
             setProfileVisible(false)
-            navigate('/signin')
+            navigate('/landing')
         }} className="hover:bg-stone-600 w-full py-1 px-2 rounded-md flex justify-start items-center max-h-8">
             <img src="./logout.png" className="max-h-5 min-h-5 min-w-5 max-w-5 mr-3"/>
             <div>Log out</div>
         </button>
     </div>)
+}
+
+
+async function logout(){
+    
 }

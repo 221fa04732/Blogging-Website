@@ -1,10 +1,13 @@
-import { useSetRecoilState, useRecoilState } from "recoil"
+import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil"
 import { PostVisibleatom } from "../Atoms/PostVisible"
 import { Profileatom } from "../Atoms/Profile";
+import { Useratom } from "../Atoms/User";
 
 export default function BlogsHeader(){
 
-    const userName = localStorage.getItem("Loged-In-UserName") || "guest"
+    const userInfo = useRecoilValue(Useratom)
+
+    const userName = userInfo.name || "guest"
     const postVisible = useSetRecoilState(PostVisibleatom);
     const [profileVisible, setProfileVisible] = useRecoilState(Profileatom)
 

@@ -8,7 +8,10 @@ const app = new Hono<{}>()
 
 // add queing to serve frequent request
 
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://blogging-website-b0yg.onrender.com'],
+    credentials: true
+}));
 
 app.route('/api/v1/user', userRouter);
 

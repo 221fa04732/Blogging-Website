@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
-import { BlogLoaderatom } from "../Atoms/BlogLoader";
-import { useSetRecoilState } from "recoil";
 import UpperCase from "./UpperCase";
 import { IntlProvider, FormattedDate } from "react-intl";
+import { Link } from "react-router-dom";
 
-export default function BlogCard(
+
+export default function MyBlogCard(
     props : {
         id : string,
         postDate : string,
@@ -15,8 +14,8 @@ export default function BlogCard(
 ){
     
     const newUserName : string = UpperCase(props.name);
-    const setblogLoading = useSetRecoilState(BlogLoaderatom)
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 
     return (<div className="flex flex-col mt-4 mb-4 w-11/12 sm:w-10/12 text-white p-2 sm:p-8 border-b border-gray-500">
         <div className="flex items-center justify-between">
@@ -38,14 +37,12 @@ export default function BlogCard(
                 </div>
             </div>
         </div>
-        <Link to={`/blog/${props.id}`} onClick={()=>{
-            localStorage.setItem("Specific-Blog-Id", props.id)
-            setblogLoading(true)
-        }}>
-            <div className="sm:mt-6 mt-4 sm:text-4xl  font-bold sm:pl-5 sm:pr-16 pl-3 pr-2">{props.title}</div>
-            <div style={{ whiteSpace: "pre-wrap" }} className="sm:mt-3 mt-2 sm:pl-5 pl-4 sm:text-lg text-sm text-gray-300 sm:pr-16">{props.content.length > 300 ? props.content.substring(0, 300)+"..." : props.content}</div>
-        </Link>
-        <div className="sm:text-sm text-xs text-gray-500 sm:pt-8 pt-4">{Math.ceil(props.content.trim().split(/\s+/).length/30)} min read</div>
+        <div className="sm:mt-6 mt-4 sm:text-4xl  font-bold sm:pl-5 sm:pr-16 pl-3 pr-2">{props.title}</div>
+        <div style={{ whiteSpace: "pre-wrap" }} className="sm:mt-3 mt-2 sm:pl-5 pl-4 sm:text-lg text-sm text-gray-300 sm:pr-16">{props.content.length > 300 ? props.content.substring(0, 300)+"..." : props.content}</div>
+        <div className="flex justify-between items-center">
+            <div className="sm:text-sm text-xs text-gray-500 sm:pt-8 pt-4">{Math.ceil(props.content.trim().split(/\s+/).length/30)} min read</div>
+            <Link to={'/edit-blog'} ><img src="./edit.png" className="min-h-8 max-w-8" /></Link>
+        </div>
         
     </div>)
 }

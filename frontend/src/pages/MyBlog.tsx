@@ -6,7 +6,7 @@ import { AlertMessageatom } from "../Atoms/AlertMessage";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import BlogCard from "../components/BlogCard";
+import MyBlogCard from "../components/MyBlogCard";
 import BlogNotfound from "./BlogNotfound";
 import Loader from "./BlogsLoader";
 
@@ -34,12 +34,7 @@ export default function MyBlog(){
         const myBlog = async () => {
           try {
             const response = await axios.get(`${BACKEND_URL}/api/v1/blog/my-blog`, {
-                params: {
-                    id: localStorage.getItem("Loged-In-UserId"),
-                },
-                headers: {
-                    Authorization: localStorage.getItem("BlogCraft-Token"),
-                },
+              withCredentials: true
             });
     
             if (response) {
@@ -75,7 +70,7 @@ export default function MyBlog(){
         <div className="mt-16 flex flex-col items-center w-full min-h-screen">
             {!myBlogloader ? (blogs.length > 0 ? (
                 [...blogs].reverse().map((blog) => (
-                <BlogCard
+                <MyBlogCard
                     key={blog.id}
                     id={blog.id}
                     postDate={blog.publishDate.toString()}

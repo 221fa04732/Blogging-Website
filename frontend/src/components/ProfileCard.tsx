@@ -1,11 +1,15 @@
 import UpperCase from "../components/UpperCase"
+import { Useratom } from "../Atoms/User"
+import { useRecoilValue } from "recoil"
 
 export default function ProfileCard(){
 
-    const name = localStorage.getItem("Loged-In-UserName") || ""
+    const userInfo = useRecoilValue(Useratom)
+
+    const name = userInfo.name || ""
     const userName = UpperCase(name)
-    const UserID = localStorage.getItem("Loged-In-UserId")
-    const email = localStorage.getItem("Loged-In-UserEmail")
+    const UserID = userInfo.id
+    const email = userInfo.email
 
 
     return(<div className="bg-stone-800 flex flex-col w-11/12 sm:w-10/12 mt-20 sm:mt-36 sm:pb-16 pb-6 border-b border-blue-500">

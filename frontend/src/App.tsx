@@ -14,6 +14,8 @@ const Blog = lazy(()=> import('./pages/Blog'))
 const Blogs = lazy(()=> import('./pages/Blogs'))
 const MyBlog = lazy(()=> import('./pages/MyBlog'))
 const MyProfile = lazy(()=> import('./pages/MyProfile'))
+const EditBlog = lazy(()=> import('./components/EditBlog'))
+const LandingPage = lazy(()=> import('./pages/LandingPage'))
 
 
 function App() {
@@ -38,7 +40,8 @@ function App() {
           <Routes>
 
         {/* un-protected route */}
-            <Route index element={<Signin />} />
+            <Route index element={<LandingPage />} />
+            <Route path='/landing' element={<LandingPage />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
 
@@ -65,6 +68,14 @@ function App() {
               element={
                 <UnAuthorized>
                   <MyBlog />
+                </UnAuthorized>
+              } 
+            />
+
+            <Route path="/edit-blog" 
+              element={
+                <UnAuthorized>
+                  <EditBlog />
                 </UnAuthorized>
               } 
             />

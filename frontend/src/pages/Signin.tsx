@@ -45,13 +45,10 @@ export default function Signin(){
             setSignloading(true)
 
             try{
-                const data = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, signinValue)
+                const data = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, signinValue,{
+                    withCredentials: true,
+                })
                 if(data.status===200){
-                    const token = data.data.token;
-                    localStorage.setItem('BlogCraft-Token',`Barrer ${token}`)
-                    localStorage.setItem("Loged-In-UserName", data.data.name || "guest")
-                    localStorage.setItem("Loged-In-UserEmail", data.data.email || "guest@gmail.com")
-                    localStorage.setItem("Loged-In-UserId", data.data.id || "123456")
                     navigate('/blogs')
                 }
                 

@@ -6,11 +6,14 @@ import { changeUsernameVerify } from '../Types/changeUsername'
 import { changePasswordVerify } from '../Types/changePassword'
 import { lower } from '../OtherFun/lower'
 import { hashPasswordWithSalt } from '../Secure/hashPassword'
+import { getSignedCookie } from 'hono/cookie'
+
 
 export const cnangeCredentials = new Hono<{
     Bindings:{
         DATABASE_URL: string, 
         JWT_SECRET : string,
+        COOKIES_SECRET : string
     },
     Variables: {
         userId: any;
@@ -20,15 +23,14 @@ export const cnangeCredentials = new Hono<{
 
 cnangeCredentials.use('/*', async(c, next)=>{
     try{
-        const header = c.req.header('Authorization');
-        if(!header){
-            c.status(202)
+        const token =await getSignedCookie(c, c.env.COOKIES_SECRET, "authToken")
+        if(!token){
+            c.status(401)
             return c.json({
             msg : "Unauthorized Access"
             })
         }
 
-        const token = header.split(" ")[1];
         const verifyToken = await verify(token, c.env.JWT_SECRET);
         if(verifyToken){
             c.set("userId", verifyToken.id)
@@ -37,6 +39,7 @@ cnangeCredentials.use('/*', async(c, next)=>{
         }
     }
     catch(e){
+        c.status(401)
         return c.json({
             msg : "Verification Failed"
         })

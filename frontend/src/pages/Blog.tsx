@@ -4,17 +4,18 @@ import { BACKEND_URL } from '../config';
 import BlogHeader from '../components/BlogHeader';
 import Footer from '../components/Footer';
 import { BlogLoaderatom } from '../Atoms/BlogLoader';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import BlogLoader from './BlogLoader';
 import Waiting from './Waiting';
 import UpperCase from '../components/UpperCase';
 import { AlertMessageatom } from '../Atoms/AlertMessage';
 import { IntlProvider, FormattedDate, FormattedTime  } from "react-intl";
+import { Uniqueblog } from '../Atoms/UniqueBlog';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Blog(){
 
-    const blogID = localStorage.getItem("Specific-Blog-Id")
     const [blogloading , setblogLoading] = useRecoilState(BlogLoaderatom)
     const [userEmail, setUsermail] = useState('')
     const [userName, setUsername] = useState('')
@@ -23,6 +24,8 @@ export default function Blog(){
     const [publishDate, setPublishdate] = useState('')
     const setAlertMessage = useSetRecoilState(AlertMessageatom)
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const blogid = useRecoilValue(Uniqueblog)
+    const navigate = useNavigate();
 
     const ModifiedUsername = UpperCase(userName)
     const ModifiedTitle = UpperCase(title)
@@ -31,10 +34,8 @@ export default function Blog(){
     
         const fetchBlogs = async () => {
           try {
-            const response = await axios.get(`${BACKEND_URL}/api/v1/blog/unique/${blogID}`, {
-              headers: {
-                Authorization: localStorage.getItem("BlogCraft-Token"),
-              },
+            const response = await axios.get(`${BACKEND_URL}/api/v1/blog/unique/${blogid}`,{
+              withCredentials : true
             });
 
             if (response.status === 200) {
@@ -53,6 +54,7 @@ export default function Blog(){
               message : "Internal Server Error",
               status : 404
             })
+            navigate('/blogs')
           }
           setblogLoading(false)
 

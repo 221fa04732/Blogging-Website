@@ -1,4 +1,6 @@
 import UpperCase from "../components/UpperCase";
+import { Useratom } from "../Atoms/User";
+import { useRecoilValue } from "recoil";
 
 
 export default function Waiting(){
@@ -8,7 +10,8 @@ export default function Waiting(){
         behavior: 'smooth',
     });
 
-    const UserName = localStorage.getItem("Loged-In-UserName")
+    const userinfo = useRecoilValue(Useratom)
+    const UserName = userinfo.name
     const firstserName = UserName?.split(' ')[0] || "guest"
     const firstserNameUppercae = UpperCase(firstserName)
 

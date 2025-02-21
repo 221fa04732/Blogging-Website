@@ -3,11 +3,14 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import {verify} from 'hono/jwt'
 import { createPost, updatePost } from '@kumarmrityunjay/medium-package'
+import { getSignedCookie } from 'hono/cookie'
+
 
 export const blogRouter = new Hono<{
     Bindings:{
         DATABASE_URL: string, 
         JWT_SECRET : string,
+        COOKIES_SECRET : string
     },
     Variables: {
         userId: any;
@@ -17,15 +20,14 @@ export const blogRouter = new Hono<{
 
 blogRouter.use('/*', async(c, next)=>{
     try{
-        const header = c.req.header('Authorization');
-        if(!header){
-            c.status(202)
+        const token = await getSignedCookie(c, c.env.COOKIES_SECRET, "authToken")
+        if(!token){
+            c.status(401)
             return c.json({
             msg : "Unauthorized Access"
             })
         }
-
-        const token = header.split(" ")[1];
+        
         const verifyToken = await verify(token, c.env.JWT_SECRET);
         if(verifyToken){
             c.set("userId", verifyToken.id)
@@ -34,6 +36,7 @@ blogRouter.use('/*', async(c, next)=>{
         }
     }
     catch(e){
+        c.status(401)
         return c.json({
             msg : "Verification Failed"
         })
@@ -192,7 +195,7 @@ blogRouter.get('/bulk', async(c)=>{
 
 blogRouter.get('/my-blog', async(c)=>{
 
-    const id = c.req.query("id");
+    const id = c.get("userId");
 
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,

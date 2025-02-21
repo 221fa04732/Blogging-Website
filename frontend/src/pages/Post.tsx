@@ -1,4 +1,4 @@
-import { useRecoilState, useSetRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import { PostVisibleatom } from "../Atoms/PostVisible"
 import { Postloaderatom } from "../Atoms/Postloader"
 import { useState } from "react"
@@ -8,11 +8,14 @@ import { BlogsLoadingatom } from "../Atoms/BlogsLoader"
 import UpperCase from "../components/UpperCase"
 import ButtonLoader from "../components/ButtonLoader"
 import { AlertMessageatom } from "../Atoms/AlertMessage"
+import { Useratom } from "../Atoms/User"
 
 
 export default function Post(){
 
-    const userName = UpperCase(localStorage.getItem("Loged-In-UserName") || "guest")
+    const userinfo = useRecoilValue(Useratom)
+    const name = userinfo.name || "guest";
+    const userName = UpperCase(name)
     const setPostVisible = useSetRecoilState(PostVisibleatom)
     const setblogsLoading = useSetRecoilState(BlogsLoadingatom)
     const [postloading, setPostloading] = useRecoilState(Postloaderatom)
@@ -78,12 +81,7 @@ async function blogPost(title : string, content : string, setTitle : any, setCon
         setPostloading(true)
         try{
             const createPost = await axios.post(`${BACKEND_URL}/api/v1/blog/new-post`,{
-                title : title,
-                content : content,
-            },{
-                headers:{
-                    Authorization : localStorage.getItem("BlogCraft-Token")
-                }
+                withCredentials : true
             })
     
             if(createPost.status === 200){

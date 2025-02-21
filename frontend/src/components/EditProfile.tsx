@@ -1,10 +1,11 @@
 import { useState } from "react"
 import UpperCase from "./UpperCase"
 import { AlertMessageatom } from "../Atoms/AlertMessage"
-import { useSetRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { ProfileLoadingatom } from "../Atoms/ProfileLoader"
+import { Useratom } from "../Atoms/User"
 
 
 export default function EditProfile(){
@@ -15,6 +16,7 @@ export default function EditProfile(){
     const [confirmPassword, setConfirmpassword] = useState('')
     const setAlertmessage = useSetRecoilState(AlertMessageatom)
     const setProfileloading = useSetRecoilState(ProfileLoadingatom)
+    const [userinfo, setUserinfo] = useRecoilState(Useratom)
 
 
     async function updateusername(){
@@ -31,15 +33,14 @@ export default function EditProfile(){
             
             try{
                 const response = await axios.put(`${BACKEND_URL}/api/v1/changeCredentials/userName`,{
-                    name : newName
-                },{
-                    headers :{
-                        Authorization : localStorage.getItem("BlogCraft-Token")
-                    }
+                    withCredentials: true
                 })
     
                 if(response.status === 200){
-                    localStorage.setItem("Loged-In-UserName", newName)
+                    setUserinfo((prev)=>({
+                        ...prev,
+                        name : newName
+                    }))
                     setNewname('')
                 }
     
@@ -92,12 +93,7 @@ export default function EditProfile(){
             
             try{
                 const response = await axios.put(`${BACKEND_URL}/api/v1/changeCredentials/password`,{
-                    oldPassword : oldPassword,
-                    newPassword : newPassword
-                },{
-                    headers :{
-                        Authorization : localStorage.getItem("BlogCraft-Token")
-                    }
+                        withCredentials: true
                 })
 
                 setOldpassword('')
@@ -121,7 +117,7 @@ export default function EditProfile(){
         
     }
 
-    const name = localStorage.getItem("Loged-In-UserName") || ""
+    const name = userinfo.name || ""
     const userName = UpperCase(name)
 
     return(<div className="bg-stone-800  sm:mt-16 mt-10 w-11/12 sm:w-10/12 flex flex-col items-center font-handwritten">
