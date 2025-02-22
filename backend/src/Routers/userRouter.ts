@@ -6,7 +6,7 @@ import {userSignup, userSignin} from '@kumarmrityunjay/medium-package'
 import { hashPasswordWithSalt } from '../Secure/hashPassword'
 import { generateSalt } from '../Secure/CreateSalt'
 import { lower } from '../OtherFun/lower'
-import { setSignedCookie, deleteCookie, getSignedCookie } from 'hono/cookie'
+import { setSignedCookie, deleteCookie, getSignedCookie, setCookie } from 'hono/cookie'
   
 
 export const userRouter = new Hono<{
@@ -68,6 +68,14 @@ userRouter.post('/signup', async (c) => {
             secure : true,
             sameSite : "None",
             path : "/",
+            maxAge: 60 * 60 * 24 * 7
+        })
+
+        setCookie(c, "loginStatus", "true", {
+            httpOnly: false,  
+            secure: false,    
+            sameSite: "Lax", 
+            path: "/",
             maxAge: 60 * 60 * 24 * 7
         })
 
@@ -139,6 +147,15 @@ userRouter.post('/signin', async (c)=>{
             path : "/",
             maxAge: 60 * 60 * 24 * 7
         })
+
+        setCookie(c, "loginStatus", "true", {
+            httpOnly: false,  
+            secure: false,    
+            sameSite: "Lax", 
+            path: "/",
+            maxAge: 60 * 60 * 24 * 7
+        });
+        
 
         c.status(200)
         return c.json({
