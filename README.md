@@ -141,10 +141,3 @@ Open [http://localhost:8787](http://localhost:8787)
 
 Contributions are welcome!
 
-
-## 😋 Contact
-
-* GitHub: [https://github.com/yourusername](https://github.com/yourusername)
-* Email: [your.email@example.com](mailto:your.email@example.com)
-
----
